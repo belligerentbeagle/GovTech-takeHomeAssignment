@@ -14,7 +14,7 @@ describe('populateRedemptionsFromCsv', () => {
         { staff_pass_id: 'STAFF_3', team_name: 'TeamC', collected_at: '1509459200000' },
     ];
 
-    const mockCsvFilePath = './mockdata/mock.csv';
+    const mockCsvFilePath = 'tests/mockcsvs/mock.csv';
 
     beforeAll(() => {
         // Create a mock CSV file
@@ -22,8 +22,7 @@ describe('populateRedemptionsFromCsv', () => {
     });
 
     it('should populate redemptions from a CSV file', () => {
-        const csvFilePath = './mockdata/mock.csv';
-        const results: Redemption[] = populateRedemptionsFromCsv(csvFilePath);
+        const results: Redemption[] = populateRedemptionsFromCsv(mockCsvFilePath);
         
         //Check if we have the correct number of redemptions
         expect(results).toHaveLength(mockCsvData.length);

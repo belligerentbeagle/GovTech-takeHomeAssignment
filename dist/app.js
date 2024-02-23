@@ -64,7 +64,7 @@ app.get('/check-redemption', (req, res) => {
         res.send(`Can Collect!\nYou may redeem for team ${incomingTeamName}!\n Redemptions list updated with ${incomingTeamName} successfully.`);
     }
 });
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-exports.default = app;
+exports.default = server;

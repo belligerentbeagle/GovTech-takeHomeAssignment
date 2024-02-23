@@ -9,7 +9,7 @@ import { redemptions } from './app';
  * @param csvFilePath - The path to the CSV file.
  * @returns An array of Redemption objects.
  */
-export function populateRedemptionsFromCsv(csvFilePath: string) {
+export function populateRedemptionsFromCsv(csvFilePath: string): Redemption[] {
     if (!fs.existsSync('./data/redeemed.csv')) {
         const headers = 'staff_pass_id,team_name,collected_at\n';
         fs.open('./data/redeemed.csv', 'w', function (err, file) {

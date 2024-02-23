@@ -3,7 +3,7 @@ import { appendRedemptionToCsv } from '../src/updateRedemptionsToCsv';
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
 
 describe('appendRedemptionToCsv', () => {
-    const filePath = '/path/to/test.csv';
+    const filePath = 'tests/mockcsvs/mock.csv';
 
     beforeEach(() => {
         // Delete the test CSV file if it exists
@@ -22,7 +22,7 @@ describe('appendRedemptionToCsv', () => {
         appendRedemptionToCsv(filePath, redemption);
 
         const fileContent = readFileSync(filePath, 'utf-8');
-        expect(fileContent).toEqual('staff_pass_id,team_name,collected_at\n123,Team A,2022-01-01\n');
+        expect(fileContent).toEqual('staff_pass_id,team_name,collected_at\n123,Team A,12345678901\n');
     });
 
     it('should append the redemption record to an existing CSV file', () => {
@@ -38,6 +38,6 @@ describe('appendRedemptionToCsv', () => {
         appendRedemptionToCsv(filePath, redemption);
 
         const fileContent = readFileSync(filePath, 'utf-8');
-        expect(fileContent).toEqual(`${existingContent}789,Team C,2022-03-03\n`);
+        expect(fileContent).toEqual(`${existingContent}789,Team C,1234567890\n`);
     });
 });
