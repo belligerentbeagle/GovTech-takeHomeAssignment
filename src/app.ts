@@ -54,8 +54,7 @@ app.get('/check-redemption', (req: Request, res: Response) => {
     const redeemed = redemptions.find(redemption => redemption.team_name === incomingTeamName);
 
     if (redeemed) {
-        console.log(redeemed); 
-        console.log('Date:', (new Date(redeemed.collected_at)).toUTCString());
+        // if already redeemed, send a message to the user
         return res.send(`Cannot collect!\nGift already redeemed by team ${redeemed.team_name} at ${new Date(redeemed.collected_at).toUTCString()}.`);
     } else {
         //allow person to redeem on by behalf of team now and add to redemptions list
