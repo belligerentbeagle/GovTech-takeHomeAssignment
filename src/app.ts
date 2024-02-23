@@ -74,8 +74,8 @@ app.get('/check-redemption', (req: Request, res: Response) => {
     }
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-export default app;
+export default server;
