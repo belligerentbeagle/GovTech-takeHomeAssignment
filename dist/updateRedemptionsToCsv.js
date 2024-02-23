@@ -3,12 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.appendRedemptionToCsv = void 0;
 const fs_1 = require("fs");
 /**
+ * Appends a redemption record to a CSV file.
+ * If the file doesn't exist, it creates the file and adds a header.
  *
- *
- *  Updating CSV file after each new collection
- *
- *
- * */
+ * @param filePath - The path to the CSV file.
+ * @param redemption - The redemption record to append to the CSV.
+ */
 function appendRedemptionToCsv(filePath, redemption) {
     // Check if the CSV file exists and has a header
     const fileExists = (0, fs_1.existsSync)(filePath);

@@ -2,12 +2,12 @@ import { Redemption } from './models/redemption';
 import { writeFileSync, appendFileSync, existsSync } from 'fs';
 
 /**
+ * Appends a redemption record to a CSV file.
+ * If the file doesn't exist, it creates the file and adds a header.
  *
- *
- *  Updating CSV file after each new collection
- *
- *
- * */
+ * @param filePath - The path to the CSV file.
+ * @param redemption - The redemption record to append to the CSV.
+ */
 export function appendRedemptionToCsv(filePath: string, redemption: Redemption) {
     // Check if the CSV file exists and has a header
     const fileExists = existsSync(filePath);

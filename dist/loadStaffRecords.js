@@ -6,6 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.loadStaffRecords = void 0;
 const fs_1 = __importDefault(require("fs"));
 const csv_parser_1 = __importDefault(require("csv-parser"));
+/**
+ * Loads staff records from a CSV file.
+ * @param csvFilePath - The path to the CSV file.
+ * @returns An array of staff records.
+ */
 const loadStaffRecords = (csvFilePath) => {
     const records = [];
     fs_1.default.createReadStream(csvFilePath)

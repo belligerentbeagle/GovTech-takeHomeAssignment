@@ -1,4 +1,9 @@
 "use strict";
+/**
+ * Represents the main application file.
+ * This file contains the implementation of an Express server that handles redemption requests.
+ * It imports various modules and defines routes for checking and processing redemptions.
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -17,11 +22,21 @@ exports.redemptions = (0, loadRedemptions_1.populateRedemptionsFromCsv)(redeemed
 // populate staff records list
 const staffID_team_mapping_filepath = './data/staff-id-to-team-mapping-long.csv';
 exports.staffRecords = (0, loadStaffRecords_1.loadStaffRecords)(staffID_team_mapping_filepath);
-// Find team name by staff ID
+/**
+ * Finds the team name by staff ID.
+ * @param staffId - The staff ID to search for.
+ * @returns The team name associated with the staff ID, or undefined if not found.
+ */
 function findTeamNameByStaffId(staffId) {
     const record = exports.staffRecords.find(record => record.staff_pass_id === staffId);
     return record ? record.team_name : undefined;
 }
+/**
+ * Handles the '/check-redemption' route.
+ * Checks if a redemption can be made for a given staff ID.
+ * @param req - The request object.
+ * @param res - The response object.
+ */
 app.get('/check-redemption', (req, res) => {
     let staffID = req.query.staffId.toUpperCase();
     // if staffID does not exist in the staffRecords, send a 404
