@@ -1,0 +1,33 @@
+body {
+    font-family: "Lato", BlinkMacSystemFont, -apple-system, "Segoe UI", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    color: #003A70;
+    background-color: #FFFFFF;
+}
+
+.check-button {
+    background-color: #003A70; /* dark blue */
+    color: #FFFFFF; /* white */
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #003A70; /* dark blue */
+    border-radius: 4px;
+    font-size: 100%;
+}
+
+.input-field::placeholder {
+    font-size: 100%;
+}

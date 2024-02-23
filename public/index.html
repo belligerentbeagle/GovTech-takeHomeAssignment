@@ -4,13 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check Redemption</title>
+    <title>GovRedeem</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Check Team Redemption</h1>
-    <input type="text" id="staffId" placeholder="Enter staff id">
-    <button onclick="checkRedemption()">Check</button>
-    <p id="result"></p>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col">
+            </div>
+            <div class="col">
+                <h1>GovRedeem</h1>
+                <p>Enter employee's staff ID below to check eligibility!</p>
+                <input type="text" id="staffId" class="input-field" placeholder="Enter staff id">
+                <button class="check-button" onclick="checkRedemption()">Check</button>
+                <p id="result"></p>
+            </div>
+        </div>
+    </div>
+    
 
     <script>
         function checkRedemption() {
