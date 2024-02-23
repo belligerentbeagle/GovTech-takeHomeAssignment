@@ -1,0 +1,27 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Redemption</title>
+</head>
+<body>
+    <h1>Check Team Redemption</h1>
+    <input type="text" id="staffId" placeholder="Enter staff id">
+    <button onclick="checkRedemption()">Check</button>
+    <p id="result"></p>
+
+    <script>
+        function checkRedemption() {
+            const staffId = document.getElementById('staffId').value;
+            fetch(`/check-redemption?staffId=${staffId}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('result').textContent = data;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
