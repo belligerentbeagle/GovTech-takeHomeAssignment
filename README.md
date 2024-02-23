@@ -25,3 +25,6 @@ To set up GovWallet, follow the steps below:
 
 ## Demo video
 [![Demo Video](./images/thumbnail.png)](http://www.youtube.com/watch?v=HFxL5VYUCjk?si=Lib6Hdp7FQAoKPin "Demo Video")
+
+## Some assuptions made:
+GovRedeem would be used by one person, and that person is somebody in HR or a related function with access to employeeID to teams mappings. 

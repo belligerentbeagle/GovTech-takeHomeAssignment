@@ -15,9 +15,6 @@ export function loadStaffRecords(csvFilePath: string): StaffRecord[] {
         .on('data', (data: StaffRecord) => {
             records.push(data);
         });
-        // .on('end', () => {
-        //     console.log('staff file has been processed.');
-        // });
 
     return records;
 }
