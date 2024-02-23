@@ -1,6 +1,6 @@
 export interface Redemption {
-    teamName: string;
-    staffId: string;
-    redeemedAt: Date;
+    staff_pass_id: string;
+    team_name: string;
+    collected_at: number;
 }
 

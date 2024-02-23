@@ -3,6 +3,8 @@ import fs from 'fs';
 import csvParser from 'csv-parser';
 import { Redemption } from './models/redemption';
 import { StaffRecord } from './models/staff';
+import { writeFileSync, appendFileSync, existsSync } from 'fs';
+import { parse } from 'fast-csv';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,8 +18,14 @@ const populateRedemptionsFromCsv = (csvFilePath: string) => {
 
     fs.createReadStream(csvFilePath)
         .pipe(csvParser())
-        .on('data', (data: Redemption) => {
-            redemptions.push(data);
+        .on('data', (data: any) => {
+            // console.log('data:', data.staff_pass_id, data.team_name, data.collected_at);
+            const newRedemption: Redemption = {
+                staff_pass_id: data.staff_pass_id,
+                team_name: data.team_name,
+                collected_at: data.collected_at
+            };
+            redemptions.push(newRedemption);
         })
         .on('end', () => {
             console.log('Redemptions list populated from CSV file.');
@@ -25,7 +33,8 @@ const populateRedemptionsFromCsv = (csvFilePath: string) => {
 };
 
 // Populate redemptions list on initialization
-populateRedemptionsFromCsv('./data/redeemed.csv');
+const redeemedCSVFilePath = './data/redeemed.csv';
+populateRedemptionsFromCsv(redeemedCSVFilePath);
 
 // Populate staff list from CSV
 let staffRecords: StaffRecord[] = [];
@@ -34,13 +43,10 @@ const loadStaffRecords = (csvFilePath: string) => {
   fs.createReadStream(csvFilePath)
     .pipe(csvParser())
     .on('data', (data: StaffRecord) => {
-      staffRecords.push(data);
+        staffRecords.push(data);
     })
     .on('end', () => {
       console.log('staff file has been processed.');
-    //   staffRecords.forEach(record => {
-    //     console.log(record);
-    //   });
     });
 };
 
@@ -50,8 +56,8 @@ const findTeamNameByStaffId = (staffId: string): string | undefined => {
 };
 
 // populate staff records list
-const csvFilePath = './data/staff-id-to-team-mapping-long.csv';
-loadStaffRecords(csvFilePath);
+const staffID_team_mapping_filepath = './data/staff-id-to-team-mapping-long.csv';
+loadStaffRecords(staffID_team_mapping_filepath);
 
 
 app.get('/check-redemption', (req: Request, res: Response) => {
@@ -62,16 +68,26 @@ app.get('/check-redemption', (req: Request, res: Response) => {
     }
 
     let incomingTeamName = findTeamNameByStaffId(staffID);
-    // console.log('incomingTeamName:', req.query.teamName);
+    
     //check redemption
-    const redeemed = redemptions.find(redemption => redemption.teamName === incomingTeamName);
+    const redeemed = redemptions.find(redemption => redemption.team_name === incomingTeamName);
 
     if (redeemed) {
-        return res.send('Gift already redeemed by this team.');
+        return res.send(`Cannot collect!\nGift already redeemed by team ${redeemed.team_name} at ${new Date(redeemed.collected_at).toUTCString()}.`);
     } else {
         //allow person to redeem on by behalf of team now and add to redemptions list
-        redemptions.push({ staffId: '1', teamName: (incomingTeamName || '').toString(), redeemedAt: new Date() });
-        res.send("Redemptions list updated with " + incomingTeamName?.toString() + " successfully.");
+
+        // Usage
+        const newRedemption: Redemption = {
+            staff_pass_id: staffID,
+            team_name: incomingTeamName || '',
+            collected_at: Date.now() // Using current timestamp for simplicity
+        };
+
+        redemptions.push(newRedemption);
+        appendRedemptionToCsv(redeemedCSVFilePath, newRedemption);
+        res.send(`Can Collect!\nYou may redeem for team ${incomingTeamName}!\n Redemptions list updated with ${incomingTeamName} successfully.`);
+
     }
 });
 
@@ -79,17 +95,26 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-app.post('/redeem', (req: Request, res: Response) => {
-    const { staffId, teamName }: { staffId: string; teamName: string } = req.body; // how then do i make a request to this endpoint?
+/**
+ * 
+ * 
+ *  Updating CSV file after each new collection 
+ * 
+ * 
+ * */
+
+function appendRedemptionToCsv(filePath: string, redemption: Redemption) {
+    // Check if the CSV file exists and has a header
+    const fileExists = existsSync(filePath);
     
-    const alreadyRedeemed = redemptions.find(redemption => redemption.teamName === teamName);
-
-    if (alreadyRedeemed) {
-        return res.status(400).send('Gift already redeemed by this team.');
+    // If the file doesn't exist, create it and add a header
+    if (!fileExists) {
+        writeFileSync(filePath, 'staff_pass_id,team_name,collected_at\n');
     }
+    
+    // Append the new redemption record to the CSV
+    appendFileSync(filePath, `${redemption['staff_pass_id']},${redemption.team_name},${redemption.collected_at}\n`);
+}
 
-    redemptions.push({ staffId, teamName, redeemedAt: new Date() });
-    res.send('Gift redeemed successfully.');
-});
 
 export default app;
