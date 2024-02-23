@@ -1,7 +1,7 @@
 # GovRedeem
 ![Screenshot of GovRedeem](./images/screenshot.jpeg)
 
-It's Christmas, let's check if your staff can collect a gift for your team! This program allows you to check your government-related transactions conveniently.
+It's Christmas, let's check if your staff can collect a gift for your team! This program allows you to check your eligibility conveniently.
 
 ## Setup
 
